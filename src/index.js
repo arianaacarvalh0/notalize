@@ -2,7 +2,7 @@ const ScraperNFSe = require('./controllers/scrapper');
 
 async function main() {
   const scraper = new ScraperNFSe();
-  const loginSucess = await scraper.login('48622727000137', '272707F@f');
+  const loginSucess = await scraper.login(process.env.LI_USER, process.env.LI_PASS);
   
   if (!loginSucess) {
     console.error('Falha ao fazer login');
