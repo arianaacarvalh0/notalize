@@ -1,5 +1,7 @@
 const axios = require("axios");
 const cheerio = require("cheerio");
+const database = require("../models/database");
+const Invoice = require("../models/invoice");
 
 class ScraperNFSe {
   constructor() {
@@ -9,8 +11,24 @@ class ScraperNFSe {
     this.cookies = "";
   }
 
+  async initialize(){
+    try {
+      await database.initDatabase();
+      console.log("Database initialized successfully");
+      return true;
+    } catch (error) {
+      console.error("Error initializing database:", error);
+      return false;
+    }
+  }
+
   async login(user, password) {
     try {
+      const databaseInitialized = await this.initialize();
+      if (!databaseInitialized) {
+        return false;
+      }
+
       console.log("Obtendo token de autenticação...");
       const response = await axios.get(this.urlLogin);
       const $ = cheerio.load(response.data);
@@ -46,7 +64,18 @@ class ScraperNFSe {
       }
 
       console.log('Login realizado com sucesso!');
-      return await this.scrapeInvoiceData();
+      const invoiceData = await this.scrapeInvoiceData();
+      if (invoiceData && invoiceData.length > 0) {
+        const saved = await Invoice.saveInvoice(invoiceData);
+        if (saved) {
+          console.log("Dados salvos com sucesso!");
+        } else {
+          console.error("Erro ao salvar os dados.");
+        }
+      } else {
+        console.error("Nenhum dado encontrado para salvar.");
+      }
+      return invoiceData
     } catch (error) {
       console.error('Erro no login:', error.message);
       return false;
@@ -109,7 +138,7 @@ class ScraperNFSe {
           $(tr).find('td').each((j, td) => {
             const text = $(td).text()
               .replace(/Visualizar|Substituir|Cancelar NFS-e|Download XML|Download DANFS-e/g, '')
-              .replace(/\s+/g, ' ')
+              .replace(/\s+/g, '')
               .trim();
             originalCells.push(text);
           });
