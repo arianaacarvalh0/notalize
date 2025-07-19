@@ -168,18 +168,6 @@ class ScraperNFSe {
     } catch (error) {
       console.error(`Erro ao acessar as páginas: ${error.message}`);
     }
-
-    if (allData.length > 0) {
-      console.log('\n--- Dados Coletados ---');
-      allData.forEach(row => {
-        console.log(row.join(' | '));
-      });
-      console.log('--- Fim dos Dados ---');
-      return allData;
-    } else {
-      console.log("Nenhum dado coletado.");
-      return [];
-    }
   }
 }
 

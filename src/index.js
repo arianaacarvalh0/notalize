@@ -1,4 +1,5 @@
 const ScraperNFSe = require('./controllers/scrapper');
+require('dotenv').config();
 
 async function main() {
   const scraper = new ScraperNFSe();
