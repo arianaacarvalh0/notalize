@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
+const invoicesRouter = require('./routes/invoices');
 require('dotenv').config();
 
 
 app.use(express.json());
+app.use('/invoices', invoicesRouter);
 
 app.get('/', (req, res) => {
   res.send('Welcome to Notalize API!');
