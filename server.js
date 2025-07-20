@@ -1,6 +1,6 @@
 const express = require('express');
 const app = express();
-const invoicesRouter = require('./routes/invoices');
+const invoicesRouter = require('/home/ariana/Projects/Notalize/src/routes/invoices.js');
 require('dotenv').config();
 
 

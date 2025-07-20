@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const ScraperNFSe = require('../src/controllers/scrapper');
+const ScraperNFSe = require('/home/ariana/Projects/Notalize/src/controllers/scrapper.js');
 const scrapper = new ScraperNFSe();
 
 router.post('/scrapper', async (req,res) =>{

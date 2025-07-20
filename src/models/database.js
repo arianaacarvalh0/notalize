@@ -1,4 +1,4 @@
-const mysql = require('mysql2');
+const mysql = require('mysql2/promise');
 const dbConfig = require('../../config/database');
 
 let conected = false;

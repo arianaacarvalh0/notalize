@@ -162,9 +162,11 @@ class ScraperNFSe {
           currentPage++;
         } else {
           console.log('Não há mais páginas para coletar.');
+          console.log(`Total de notas coletadas: ${allData.length}`);
           break;
         }
       }
+      return allData;
     } catch (error) {
       console.error(`Erro ao acessar as páginas: ${error.message}`);
     }
